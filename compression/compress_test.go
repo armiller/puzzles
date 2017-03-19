@@ -18,9 +18,19 @@ func Test_compress(t *testing.T) {
 			"",
 		},
 		{
-			"Only one character",
+			"one character",
 			args{uncompressed: "a"},
 			"a1",
+		},
+		{
+			"two characters",
+			args{uncompressed: "aa"},
+			"a2",
+		},
+		{
+			"two unique characters",
+			args{uncompressed: "ab"},
+			"a1b1",
 		},
 		{
 			"sequential",
