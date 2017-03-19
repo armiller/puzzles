@@ -1,30 +1,33 @@
-package main
+package compress
 
-import "fmt"
+import "bytes"
 import "strconv"
 
-func main() {
-	test := "aaabbbccbddd"
-	result := compress(test)
-	fmt.Println(result)
-}
-
 func compress(uncompressed string) string {
-	prev := 0
-	var letter string
-	var next string
-	var compressed string
-	for index := 1; index < len(uncompressed); index++ {
-		letter = string(uncompressed[index-1])
-		next = string(uncompressed[index])
-		if letter != next {
-			count := index - prev
-			compressed += string(letter)
-			compressed += strconv.Itoa(count)
-			prev = index
+	var buf bytes.Buffer
+
+	switch len(uncompressed) {
+	case 0:
+		break
+	case 1:
+		buf.WriteByte(uncompressed[0])
+		buf.WriteString("1")
+	default:
+		var prev byte
+		var letter byte
+		last := 0
+		for i := 1; i < len(uncompressed); i++ {
+			prev = uncompressed[i-1]
+			letter = uncompressed[i]
+			if letter != prev {
+				buf.WriteByte(prev)
+				buf.WriteString(strconv.Itoa(i - last))
+				last = i
+			}
 		}
+		buf.WriteByte(letter)
+		buf.WriteString(strconv.Itoa(len(uncompressed) - last))
 	}
-	compressed += string(letter)
-	compressed += strconv.Itoa(len(uncompressed) - prev)
-	return compressed
+
+	return buf.String()
 }
