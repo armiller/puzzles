@@ -1,13 +1,12 @@
 package compress
 
-import "bytes"
 import "strconv"
 
 func compress(uncompressed string) string {
-	var buf bytes.Buffer
+	var buf string
 
 	if len(uncompressed) == 0 {
-		return buf.String()
+		return buf
 	}
 
 	var prev byte
@@ -17,13 +16,13 @@ func compress(uncompressed string) string {
 		prev = uncompressed[i-1]
 		letter = uncompressed[i]
 		if letter != prev {
-			buf.WriteByte(prev)
-			buf.WriteString(strconv.Itoa(i - last))
+			buf += string(prev)
+			buf += strconv.Itoa(i - last)
 			last = i
 		}
 	}
-	buf.WriteByte(letter)
-	buf.WriteString(strconv.Itoa(len(uncompressed) - last))
+	buf += string(letter)
+	buf += strconv.Itoa(len(uncompressed) - last)
 
-	return buf.String()
+	return buf
 }
