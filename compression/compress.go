@@ -1,6 +1,6 @@
 package compress
 
-import "strconv"
+import "fmt"
 
 func compress(uncompressed string) string {
 	var buf string
@@ -9,20 +9,18 @@ func compress(uncompressed string) string {
 		return buf
 	}
 
-	var prev byte
-	letter := uncompressed[0]
-	last := 0
-	for i := 1; i < len(uncompressed); i++ {
-		prev = uncompressed[i-1]
-		letter = uncompressed[i]
-		if letter != prev {
-			buf += string(prev)
-			buf += strconv.Itoa(i - last)
-			last = i
+	letter := string(uncompressed[0])
+	count := 1
+	for _, next := range uncompressed[1:] {
+		if letter == string(next) {
+			count++
+		} else {
+			buf += fmt.Sprintf("%s%d", letter, count)
+			count = 1
 		}
+		letter = string(next)
 	}
-	buf += string(letter)
-	buf += strconv.Itoa(len(uncompressed) - last)
+	buf += fmt.Sprintf("%s%d", letter, count)
 
 	return buf
 }
