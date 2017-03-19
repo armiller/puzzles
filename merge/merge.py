@@ -7,10 +7,10 @@ def merge(a, b):
         else:
             combined.append(b.pop(0))
     if a:
-        combined = combined + a
+        combined += a
     if b:
-        combined = combined + b
+        combined += b
     return combined
 
 if __name__ == "__main__":
-    print(merge([1, 3, 4], []))
+    print(merge([1, 3, 4], [3, 3, 3]))
