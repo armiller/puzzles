@@ -6,7 +6,7 @@ import (
 
 func main() {
 	a := []int{3, 5, 7}
-	b := []int{3, 3, 4}
+	b := []int{3, 3, 4, 6, 10, 10}
 	c := merge(a, b)
 	fmt.Println(c)
 }
@@ -23,11 +23,8 @@ func merge(a, b []int) []int {
 			y++
 		}
 	}
-	if len(a)-x != 0 {
-		combined = append(combined, a[x:]...)
-	}
-	if len(b)-y != 0 {
-		combined = append(combined, b[y:]...)
-	}
+	combined = append(combined, a[x:]...)
+	combined = append(combined, b[y:]...)
+
 	return combined
 }
